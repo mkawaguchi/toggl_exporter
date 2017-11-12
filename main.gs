@@ -2,6 +2,7 @@
   Toggl track logs export to GoogleCalendar
   Copyright (c) 2017 Masato Kawaguchi
   Released under the MIT license
+  https://github.com/mkawaguchi/toggl_exporter/blob/master/LICENSE
 
   required: moment.js
     project-key: MHMchiX6c1bwSqGM1PZiW_PxhMjh3Sh48
