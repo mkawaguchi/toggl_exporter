@@ -1,0 +1,2 @@
+# toggl_exporter
+TogglでトラックしたログをGoogleカレンダーに自動的にエクスポートしてくれるスクリプト
