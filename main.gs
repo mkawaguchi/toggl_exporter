@@ -3,7 +3,7 @@
   author: masato kawaguchi
 
   required: moment.js
-    project-key: iMHMchiX6c1bwSqGM1PZiW_PxhMjh3Sh48
+    project-key: MHMchiX6c1bwSqGM1PZiW_PxhMjh3Sh48
 */
 
 var CACHE_KEY          = 'toggl_exporter:lastmodify_datetime';
