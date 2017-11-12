@@ -1,6 +1,7 @@
 /*
   Toggl track logs export to GoogleCalendar
-  author: masato kawaguchi
+  Copyright (c) 2017 Masato Kawaguchi
+  Released under the MIT license
 
   required: moment.js
     project-key: MHMchiX6c1bwSqGM1PZiW_PxhMjh3Sh48
@@ -9,7 +10,7 @@
 var CACHE_KEY          = 'toggl_exporter:lastmodify_datetime';
 var TIME_OFFSET        = 9 * 60 * 60; // JST
 var TOGGL_API_HOST     = 'https://www.toggl.com/api/v8/time_entries';
-var TOGGL_BASIC_AUTH   = 'REPLACE_ME';
+var TOGGL_BASIC_AUTH   = 'REPLACE_ME:api_token';
 var GOOGLE_CALENDAR_ID = 'REPLACE_ME';
 
 function getLastModifyDatetime() {
