@@ -47,11 +47,16 @@ function getTimeEntries(unix_timestamp) {
     uri,
     {
       'method' : 'GET',
-      'headers' : {"Authorization" : " Basic " + Utilities.base64Encode(TOGGL_BASIC_AUTH)},
+      'headers' : { "Authorization" : " Basic " + Utilities.base64Encode(TOGGL_BASIC_AUTH) },
       'muteHttpExceptions': true
     }
   );
-  return JSON.parse(response);
+  try {
+    return JSON.parse(response);
+  }
+  catch (e) {
+    Logger.log([unix_timestamp, e]);
+  }
 }
 
 function recordActivityLog(description, started_at, ended_at) {
@@ -61,23 +66,28 @@ function recordActivityLog(description, started_at, ended_at) {
 }
 
 function watch() {
-  var check_datetime = getLastModifyDatetime();
-  var time_entries = getTimeEntries(check_datetime);
+  try {
+    var check_datetime = getLastModifyDatetime();
+    var time_entries = getTimeEntries(check_datetime);
 
-  if(time_entries) {
-    last_stop_datetime = null;
-    for (var i=0; i<time_entries.length; i++) {
-      var record = time_entries[i];
-      if(record.stop == null) continue;
-      recordActivityLog(
-        record.description || '名称なし',
-        Moment.moment(record.start).format(),
-        Moment.moment(record.stop).format()
-      );
-      last_stop_datetime = record.stop;
+    if(time_entries) {
+      last_stop_datetime = null;
+      for (var i=0; i<time_entries.length; i++) {
+        var record = time_entries[i];
+        if(record.stop == null) continue;
+        recordActivityLog(
+          record.description || '名称なし',
+          Moment.moment(record.start).format(),
+          Moment.moment(record.stop).format()
+        );
+        last_stop_datetime = record.stop;
+      }
+      if(last_stop_datetime) {
+        putLastModifyDatetime((parseInt(Moment.moment(last_stop_datetime).format('X'), 10) + 1).toFixed());
+      }
     }
-    if(last_stop_datetime) {
-      putLastModifyDatetime((parseInt(Moment.moment(last_stop_datetime).format('X'), 10) + 1).toFixed());
-    }
+  }
+  catch (e) {
+    Logger.log(e);
   }
 }
