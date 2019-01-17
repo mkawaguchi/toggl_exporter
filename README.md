@@ -1,4 +1,4 @@
-# oggl_exporter
+# toggl_exporter
 ## これは何
 - TogglでトラックしたログをGoogleカレンダーに自動的にエクスポートしてくれるスクリプト
 
