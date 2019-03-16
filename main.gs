@@ -1,6 +1,6 @@
 /*
-  Toggl track logs export to GoogleCalendar
-  Copyright (c) 2017 Masato Kawaguchi
+  Toggl time entries export to GoogleCalendar
+  Copyright (c) 2017 - 2019 Masato Kawaguchi
   Released under the MIT license
   https://github.com/mkawaguchi/toggl_exporter/blob/master/LICENSE
 
@@ -10,7 +10,6 @@
 
 var CACHE_KEY          = 'toggl_exporter:lastmodify_datetime';
 var TIME_OFFSET        = 9 * 60 * 60; // JST
-var TOGGL_API_HOST     = 'https://www.toggl.com/api/v8/time_entries';
 var TOGGL_BASIC_AUTH   = 'REPLACE_ME:api_token';
 var GOOGLE_CALENDAR_ID = 'REPLACE_ME';
 
@@ -42,7 +41,7 @@ function putLastModifyDatetime(unix_timestamp) {
 }
 
 function getTimeEntries(unix_timestamp) {
-  var uri = TOGGL_API_HOST + '?' + 'start_date=' + encodeURIComponent(Moment.moment(unix_timestamp, 'X').format());
+  var uri = 'https://www.toggl.com/api/v8/time_entries' + '?' + 'start_date=' + encodeURIComponent(Moment.moment(unix_timestamp, 'X').format());
   var response = UrlFetchApp.fetch(
     uri,
     {
@@ -56,6 +55,25 @@ function getTimeEntries(unix_timestamp) {
   }
   catch (e) {
     Logger.log([unix_timestamp, e]);
+  }
+}
+
+function getProjectData(project_id) {
+  if(!!project_id == false) return {};
+  var uri = 'https://www.toggl.com/api/v8/projects/'+ project_id;
+  var response = UrlFetchApp.fetch(
+    uri,
+    {
+      'method' : 'GET',
+      'headers' : { "Authorization" : " Basic " + Utilities.base64Encode(TOGGL_BASIC_AUTH) },
+      'muteHttpExceptions': true
+    }
+  );
+  try {
+    return JSON.parse(response).data;
+  }
+  catch (e) {
+    Logger.log(["getProjectData", e]);
   }
 }
 
@@ -75,8 +93,13 @@ function watch() {
       for (var i=0; i<time_entries.length; i++) {
         var record = time_entries[i];
         if(record.stop == null) continue;
+
+        var project_data = getProjectData(record.pid);
+        var project_name = project_data.name || '';
+        var activity_log = [(record.description || '名称なし'), project_name].filter(function(e){return e}).join(" : ");
+
         recordActivityLog(
-          record.description || '名称なし',
+          activity_log,
           Moment.moment(record.start).format(),
           Moment.moment(record.stop).format()
         );
