@@ -18,7 +18,7 @@ function getLastModifyDatetime() {
   var file = DriveApp.getFilesByName('toggl_exporter_cache');
   if(!file.hasNext()) {
     var now = Moment.moment().format('X');
-    var beginning_of_day = parseInt(now - (now % 86400 + TIME_OFFSET), 10).toFixed();
+    var beginning_of_day = parseInt(now - (now % 86400 * 7 + TIME_OFFSET), 10).toFixed();
     putLastModifyDatetime(beginning_of_day);
     return beginning_of_day;
   }
