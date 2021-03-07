@@ -1,7 +1,8 @@
 /*
   Toggl time entries export to GoogleCalendar
-  Copyright (c) 2017 - 2021 Masato Kawaguchi
+  author: Masato Kawaguchi
   Released under the MIT license
+  version: 1.0.2
   https://github.com/mkawaguchi/toggl_exporter/blob/master/LICENSE
 
   required: moment.js
