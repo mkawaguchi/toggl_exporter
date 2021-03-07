@@ -1,11 +1,11 @@
 /*
   Toggl time entries export to GoogleCalendar
-  Copyright (c) 2017 - 2019 Masato Kawaguchi
+  Copyright (c) 2017 - 2021 Masato Kawaguchi
   Released under the MIT license
   https://github.com/mkawaguchi/toggl_exporter/blob/master/LICENSE
 
   required: moment.js
-    project-key: MHMchiX6c1bwSqGM1PZiW_PxhMjh3Sh48
+    project-key: 15hgNOjKHUG4UtyZl9clqBbl23sDvWMS8pfDJOyIapZk5RBqwL3i-rlCo
 */
 
 var CACHE_KEY          = 'toggl_exporter:lastmodify_datetime';
