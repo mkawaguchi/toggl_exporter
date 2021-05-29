@@ -11,8 +11,10 @@
 
 var CACHE_KEY          = 'toggl_exporter:lastmodify_datetime';
 var TIME_OFFSET        = 9 * 60 * 60; // JST
+var TOGGL_API_HOSTNAME = 'https://api.track.toggl.com';
 var TOGGL_BASIC_AUTH   = 'REPLACE_ME:api_token';
 var GOOGLE_CALENDAR_ID = 'REPLACE_ME';
+
 
 function getLastModifyDatetime() {
   var cache = {};
@@ -42,7 +44,7 @@ function putLastModifyDatetime(unix_timestamp) {
 }
 
 function getTimeEntries(unix_timestamp) {
-  var uri = 'https://www.toggl.com/api/v8/time_entries' + '?' + 'start_date=' + encodeURIComponent(Moment.moment(unix_timestamp, 'X').format());
+  var uri = TOGGL_API_HOSTNAME + '/api/v8/time_entries' + '?' + 'start_date=' + encodeURIComponent(Moment.moment(unix_timestamp, 'X').format());
   var response = UrlFetchApp.fetch(
     uri,
     {
@@ -61,7 +63,7 @@ function getTimeEntries(unix_timestamp) {
 
 function getProjectData(project_id) {
   if(!!project_id == false) return {};
-  var uri = 'https://www.toggl.com/api/v8/projects/'+ project_id;
+  var uri = TOGGL_API_HOSTNAME + '/api/v8/projects/'+ project_id;
   var response = UrlFetchApp.fetch(
     uri,
     {
