@@ -10,7 +10,6 @@
 */
 
 var CACHE_KEY          = 'toggl_exporter:lastmodify_datetime';
-var TIME_OFFSET        = 9 * 60 * 60; // JST
 var TOGGL_BASIC_AUTH   = 'REPLACE_ME:api_token';
 var GOOGLE_CALENDAR_ID = 'REPLACE_ME';
 
@@ -18,8 +17,7 @@ function getLastModifyDatetime() {
   var cache = {};
   var file = DriveApp.getFilesByName('toggl_exporter_cache');
   if(!file.hasNext()) {
-    var now = Moment.moment().format('X');
-    var beginning_of_day = parseInt(now - (now % 86400 + TIME_OFFSET), 10).toFixed();
+    var beginning_of_day = parseInt(Moment.moment().subtract(30, "days").format("X"), 10).toFixed();
     putLastModifyDatetime(beginning_of_day);
     return beginning_of_day;
   }
@@ -42,7 +40,7 @@ function putLastModifyDatetime(unix_timestamp) {
 }
 
 function getTimeEntries(unix_timestamp) {
-  var uri = 'https://www.toggl.com/api/v8/time_entries' + '?' + 'start_date=' + encodeURIComponent(Moment.moment(unix_timestamp, 'X').format());
+  var uri = 'https://api.track.toggl.com/api/v8/time_entries' + '?' + 'start_date=' + encodeURIComponent(Moment.moment(unix_timestamp, 'X').format());
   var response = UrlFetchApp.fetch(
     uri,
     {
@@ -109,6 +107,7 @@ function watch() {
           Moment.moment(record.stop).format(),
           tags.join()
         );
+        Utilities.sleep(2 * 1000);
         last_stop_datetime = record.stop;
       }
       if(last_stop_datetime) {
