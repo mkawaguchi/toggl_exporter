@@ -78,10 +78,13 @@ function getProjectData(project_id) {
   }
 }
 
-function recordActivityLog(description, started_at, ended_at) {
+function recordActivityLog(description, started_at, ended_at, tags) {
   var calendar = CalendarApp.getCalendarById(GOOGLE_CALENDAR_ID);
   calendar.setTimeZone('Asia/Tokyo');
-  calendar.createEvent(description, new Date(started_at), new Date(ended_at));
+  var options = {
+    'description': 'tags: ' + tags
+  }
+  calendar.createEvent(description, new Date(started_at), new Date(ended_at), options);
 }
 
 function watch() {
@@ -98,11 +101,13 @@ function watch() {
         var project_data = getProjectData(record.pid);
         var project_name = project_data.name || '';
         var activity_log = [(record.description || '名称なし'), project_name].filter(function(e){return e}).join(" : ");
+        var tags = record.tags || ['なし'];
 
         recordActivityLog(
           activity_log,
           Moment.moment(record.start).format(),
-          Moment.moment(record.stop).format()
+          Moment.moment(record.stop).format(),
+          tags.join()
         );
         last_stop_datetime = record.stop;
       }
