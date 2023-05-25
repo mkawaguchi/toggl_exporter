@@ -85,8 +85,9 @@ function recordActivityLog(description, started_at, ended_at, tags) {
   calendar.setTimeZone('Asia/Tokyo');
   var options = {
     'description': 'tags: ' + tags
-  }
-  calendar.createEvent(description, new Date(started_at), new Date(ended_at), options);
+  };
+  var event = calendar.createEvent(description, new Date(started_at), new Date(ended_at), options);
+  event.setColor(CalendarApp.EventColor.GREEN);
 }
 
 function watch() {
