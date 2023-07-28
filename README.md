@@ -7,3 +7,6 @@
 
 ## 不明点などは、こちらへどうぞ
 - [個人のSlackのワークスペース](https://join.slack.com/t/m-kawaguchi/shared_invite/enQtODE5NTU2NTc3MDQwLWI3MjBkMWE1MWE1MWNlODAzOTRiOTkyOWRjODMxYmYxODQ5YWMwYThhYzgwNGU4M2NlNmVmNmZhM2U5ZWQ3MDU)
+
+### もしよければ
+<a href="https://www.buymeacoffee.com/mkawaguchi" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
