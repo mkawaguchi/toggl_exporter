@@ -2,7 +2,7 @@
   Toggl time entries export to GoogleCalendar
   author: Masato Kawaguchi
   Released under the BSD-3-Clause license
-  version: 1.1.0
+  version: 1.1.01
   https://github.com/mkawaguchi/toggl_exporter/blob/master/LICENSE
 
   required: moment.js
@@ -73,9 +73,9 @@ function getTimeEntries(unix_timestamp) {
   }
 }
 
-function getProjectData(project_id) {
-  if(!!project_id == false) return {};  
-  var uri = TOGGL_API_HOSTNAME + '/api/v9/me/projects/'+ project_id;
+function getProjectData(workspace_id, project_id) {
+  if((!!workspace_id && !!project_id) == false) return {}; 
+  var uri = TOGGL_API_HOSTNAME + '/api/v9/workspaces/'+ workspace_id +'/projects/'+ project_id;
   var response = UrlFetchApp.fetch(
     uri,
     {   
@@ -85,7 +85,7 @@ function getProjectData(project_id) {
     }   
   );
   try {
-    return JSON.parse(response).data;
+    return JSON.parse(response);
   }
   catch (e) {
     Logger.log(["getProjectData", e]);
@@ -110,7 +110,7 @@ function watch() {
         if(record.stop == null) {
           continue;
         }
-        var project_data = getProjectData(record.pid);
+        var project_data = getProjectData(record.wid, record.pid);
         var project_name = project_data.name || '';
         var activity_log = [(record.description || '名称なし'), project_name].filter(function(e){return e}).join(" : ");
 
