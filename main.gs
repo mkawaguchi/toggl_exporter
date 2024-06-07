@@ -56,7 +56,7 @@ function putLastModifyDatetime(unix_timestamp) {
 }
 
 function getTimeEntries(unix_timestamp) {
-  var uri = TOGGL_API_HOSTNAME + '/api/v9/me/time_entries' + '?' + 'start_date=' + encodeURIComponent(Moment.moment(unix_timestamp, 'X').format()) + "&" + 'end_date=' + encodeURIComponent(Moment.moment(unix_timestamp + (6*60*60), 'X').format());
+  var uri = TOGGL_API_HOSTNAME + '/api/v9/me/time_entries' + '?' + 'start_date=' + encodeURIComponent(Moment.moment(unix_timestamp, 'X').format()) + "&" + 'end_date=' + encodeURIComponent(Moment.moment(unix_timestamp + (86400), 'X').format());
   var response = UrlFetchApp.fetch(
     uri,
     {   
